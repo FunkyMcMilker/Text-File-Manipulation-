@@ -1,0 +1,105 @@
+#include<iostream>
+#include<iomanip>
+#include<algorithm>
+#include <ctime>
+#include <chrono>
+#include<fstream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+
+    ifstream myinfile;
+    ofstream myoutfile;
+    string infileName, outfileName;
+    int record[256] = { 0 };
+    int numOfChar = 0, totalChar= 0, pos = 0;
+    char mostFrequent = ' ';
+    int numOfWords = 1;
+    char identifyChar = ' ';
+    string newWord("");
+    vector <string> totalWords;
+   
+    cout << "Input FileName : " << endl;
+    cin >> infileName;
+    myinfile.open(infileName);
+       while(myinfile)
+       {
+           myinfile.get(identifyChar);
+           if(identifyChar == ' ')
+           {
+            numOfWords ++;
+            totalWords.push_back(newWord);
+            //cout << newWord << " " ;
+            newWord = "";
+           }
+           else
+           {
+               newWord = newWord + identifyChar;
+               record[identifyChar] ++;
+           }
+       }
+    
+//  Q1
+    
+    cout <<"Your file has : " << numOfWords << " words." << endl;
+    
+// Q2
+
+    for (int x = 96; x < 123; x++)
+    {
+        int a = record[x];
+        totalChar = totalChar + a;
+       //  cout << record[x] << endl;
+        if( record[x] > numOfChar)
+       {
+           pos = x;
+        numOfChar = record[x];
+           // cout << mostFrequent <<endl;
+       }
+    }
+    mostFrequent = (char) pos;
+    cout << "Most frequent Char is : " << mostFrequent << endl;
+    cout  << "It aprears " << numOfChar << " times out of " << totalChar<< " chars." << endl;
+    
+    // Q3
+    int counter = 0;
+    int const SIZE = totalWords.size();
+   // cout << SIZE << endl;
+    int wordCounter[SIZE];
+    for(int  x = 0; x < SIZE ; x++)
+    {
+        wordCounter[x] = 0;
+    }
+    for ( int i = 0 ; i < SIZE ; i++)
+    {
+        string a = totalWords[i];
+        for( int j = i ; j < SIZE; j++)
+        {
+            string b = totalWords[j];
+            if (a == b)
+            {
+                wordCounter[i]++;
+            }
+        }
+    }
+    int most = 0, mostPos= 0;
+    for( int a = 0 ; a < SIZE; a++)
+    {
+        if (wordCounter[a]> most)
+        {
+            most = wordCounter[a];
+            mostPos = a;
+        }
+    }
+   cout<< "The word that aprered the most was  ' " << totalWords[mostPos] << " ' with " << most << " times. " << endl;
+    myinfile.close();
+ 
+system("pause");
+    return 0;
+}
+
+
+
